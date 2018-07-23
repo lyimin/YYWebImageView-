@@ -106,6 +106,7 @@ static inline dispatch_queue_t YYImageCacheDecodeQueue() {
     YYMemoryCache *memoryCache = [YYMemoryCache new];
     memoryCache.shouldRemoveAllObjectsOnMemoryWarning = YES;
     memoryCache.shouldRemoveAllObjectsWhenEnteringBackground = YES;
+    // 没有限制缓存数量
     memoryCache.countLimit = NSUIntegerMax;
     memoryCache.costLimit = NSUIntegerMax;
     memoryCache.ageLimit = 12 * 60 * 60;
@@ -222,10 +223,12 @@ static inline dispatch_queue_t YYImageCacheDecodeQueue() {
 
 - (UIImage *)getImageForKey:(NSString *)key withType:(YYImageCacheType)type {
     if (!key) return nil;
+    // 从内存获取
     if (type & YYImageCacheTypeMemory) {
         UIImage *image = [_memoryCache objectForKey:key];
         if (image) return image;
     }
+    // 从磁盘获取 
     if (type & YYImageCacheTypeDisk) {
         NSData *data = (id)[_diskCache objectForKey:key];
         UIImage *image = [self imageFromData:data];

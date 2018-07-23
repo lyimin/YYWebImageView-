@@ -98,7 +98,6 @@ static void URLInBlackListAdd(NSURL *url) {
 
 
 // 代理对象_YYWebImageWeakProxy
-/// A proxy used to hold a weak object.
 @interface _YYWebImageWeakProxy : NSProxy
 @property (nonatomic, weak, readonly) id target;
 - (instancetype)initWithTarget:(id)target;
@@ -173,8 +172,12 @@ static void URLInBlackListAdd(NSURL *url) {
  */
 @property (nonatomic, strong) NSRecursiveLock *lock;
 @property (nonatomic, strong) NSURLConnection *connection;
+
+// 图片数据
 @property (nonatomic, strong) NSMutableData *data;
 @property (nonatomic, assign) NSInteger expectedSize;
+
+// 任务id
 @property (nonatomic, assign) UIBackgroundTaskIdentifier taskID;
 
 @property (nonatomic, assign) NSTimeInterval lastProgressiveDecodeTimestamp;
@@ -205,7 +208,6 @@ static void URLInBlackListAdd(NSURL *url) {
     }
 }
 
-/// Global image request network thread, used by NSURLConnection delegate.
 /// 开启单例全局线程
 + (NSThread *)_networkThread {
     static NSThread *thread = nil;
@@ -220,7 +222,6 @@ static void URLInBlackListAdd(NSURL *url) {
     return thread;
 }
 
-/// Global image queue, used for image reading and decoding.
 /// 创建单例全局队列
 + (dispatch_queue_t)_imageQueue {
     #define MAX_QUEUE_COUNT 16
@@ -249,6 +250,7 @@ static void URLInBlackListAdd(NSURL *url) {
     #undef MAX_QUEUE_COUNT
 }
 
+// 初始化YYWebImageOperation对象
 - (instancetype)init {
     @throw [NSException exceptionWithName:@"YYWebImageOperation init error" reason:@"YYWebImageOperation must be initialized with a request. Use the designated initializer to init." userInfo:nil];
     return [self initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@""]] options:0 cache:nil cacheKey:nil progress:nil transform:nil completion:nil];
@@ -878,8 +880,6 @@ static void URLInBlackListAdd(NSURL *url) {
 
 /**
  *  取消
- *
- *  @param cancelled <#cancelled description#>
  */
 - (void)setCancelled:(BOOL)cancelled {
     [_lock lock];

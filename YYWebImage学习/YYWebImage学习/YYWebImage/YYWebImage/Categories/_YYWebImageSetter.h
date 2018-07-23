@@ -54,14 +54,13 @@ extern const NSTimeInterval _YYWebImageProgressiveFadeTime;
  通常情况下，你不应该直接使用此类。
  */
 @interface _YYWebImageSetter : NSObject
-/// Current image url.
+
 /// 图片url
 @property (nullable, nonatomic, readonly) NSURL *imageURL;
-/// Current sentinel.
+
 /// 当前定点
 @property (nonatomic, readonly) int32_t sentinel;
 
-/// Create new operation for web image and return a sentinel value.
 /// 创建Web图像新的操作，并返回一个标记值。
 - (int32_t)setOperationWithSentinel:(int32_t)sentinel
                                 url:(nullable NSURL *)imageURL
@@ -71,15 +70,15 @@ extern const NSTimeInterval _YYWebImageProgressiveFadeTime;
                           transform:(nullable YYWebImageTransformBlock)transform
                          completion:(nullable YYWebImageCompletionBlock)completion;
 
-/// Cancel and return a sentinel value. The imageURL will be set to nil.
+
 /// 取消，并返回一个标记值。该imageURL将被设为零。
 - (int32_t)cancel;
 
-/// Cancel and return a sentinel value. The imageURL will be set to new value.
+
 /// 取消，并返回一个标记值。该imageURL将被设置为新的值。
 - (int32_t)cancelWithNewURL:(nullable NSURL *)imageURL;
 
-/// A queue to set operation.
+
 /// 设置队列
 + (dispatch_queue_t)setterQueue;
 

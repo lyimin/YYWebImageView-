@@ -139,12 +139,13 @@ static UIApplication *_YYSharedApplication() {
     }
     return operation;
 }
-
+// 根据url返回header
 - (NSDictionary *)headersForURL:(NSURL *)url {
     if (!url) return nil;
     return _headersFilter ? _headersFilter(url, _headers) : _headers;
 }
 
+// 根据url返回key
 - (NSString *)cacheKeyForURL:(NSURL *)url {
     if (!url) return nil;
     return _cacheKeyFilter ? _cacheKeyFilter(url) : url.absoluteString;
